@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111315" />
+    <meta name="description" content="Narasimha is a CSE student interested in software development, filmmaking, and visual storytelling." />
+    <meta property="og:title" content="Narasimha — Software Developer & Video Editor" />
+    <meta property="og:description" content="Personal portfolio of Narasimha." />
+    <meta property="og:type" content="website" />
+    <title>Narasimha — Software Developer &amp; Video Editor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Narasimha, back to top">Narasimha</a>
+      <nav aria-label="Main navigation">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <p class="eyebrow">CSE student</p>
+        <h1 id="hero-title">Software Developer<br />&amp; Video Editor</h1>
+        <p class="hero-intro">I’m a CSE student. I write scripts for my short films, direct them, and edit the footage.</p>
+      </section>
+
+      <section class="work section-shell" id="work" aria-labelledby="work-title">
+        <h2 id="work-title">Work</h2>
+        <article class="project" aria-labelledby="project-title">
+          <div class="project-copy">
+            <p class="project-type">Academic project</p>
+            <h3 id="project-title">Blood Donation<br />Management System</h3>
+            <p class="project-description">A full-stack application for donor registration, blood requests, finding donors by blood group, and tracking donation history.</p>
+            <a class="project-link" href="https://github.com/Narasimhasuraboina/Blood-donation" target="_blank" rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="project-showcase">
+            <div class="code-preview" aria-label="Source code preview from the donor list component">
+              <div class="code-toolbar"><span class="window-dot" aria-hidden="true"></span><span>DonorList.js</span><span class="code-language">React</span></div>
+              <pre><code><span class="code-keyword">const</span> response = await axios.get(
+    `${API}/profile/all-donors`,
+    {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+);
+setDonors(response.data);</code></pre>
+              <a class="source-link" href="https://github.com/Narasimhasuraboina/Blood-donation/blob/main/frontend/src/components/DonorList.js" target="_blank" rel="noopener noreferrer">Open source file <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="project-details">
+              <p class="detail-label">Technologies</p>
+              <p>React · Axios · Node.js · Express · JWT · MySQL</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="film-work" aria-labelledby="film-title">
+          <h3 id="film-title">Short films</h3>
+          <p>I make short films from scripts I write. I direct and edit them myself.</p>
+        </article>
+      </section>
+
+      <section class="about" id="about" aria-labelledby="about-title">
+        <div class="about-inner">
+          <h2 id="about-title">About</h2>
+          <p>I’m interested in software and web development, creative technology, filmmaking, and visual storytelling.</p>
+        </div>
+      </section>
+
+      <section class="contact section-shell" id="contact" aria-labelledby="contact-title">
+        <h2 id="contact-title">Contact</h2>
+        <ul class="profile-list">
+          <li><a href="https://www.linkedin.com/in/narasimha-suraboina-9b0a5834b" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><span class="profile-handle">Narasimhasuraboina</span><span class="profile-arrow" aria-hidden="true">↗</span></a></li>
+          <li><a href="https://leetcode.com/u/Narasimhasuraboina/" target="_blank" rel="noopener noreferrer"><span>LeetCode</span><span class="profile-handle">Narasimhasuraboina</span><span class="profile-arrow" aria-hidden="true">↗</span></a></li>
+          <li><a href="https://github.com/Narasimhasuraboina" target="_blank" rel="noopener noreferrer"><span>GitHub</span><span class="profile-handle">Narasimhasuraboina</span><span class="profile-arrow" aria-hidden="true">↗</span></a></li>
+          <li><a href="https://www.geeksforgeeks.org/user/Narasimhasuraboina/" target="_blank" rel="noopener noreferrer"><span>GeeksforGeeks</span><span class="profile-handle">Narasimhasuraboina</span><span class="profile-arrow" aria-hidden="true">↗</span></a></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer"><a class="wordmark" href="#top">Narasimha</a><span>Software Developer + Video Editor</span><a href="#top" class="back-top">Back to top</a></footer>
+  </body>
+</html>
