@@ -161,6 +161,15 @@
     });
   });
 
+  const inspector = document.querySelector("#project-inspector");
+  const inspectorTrigger = document.querySelector(".inspect-trigger");
+  const inspectorClose = document.querySelector(".inspector-close");
+  inspectorTrigger?.addEventListener("click", () => inspector?.showModal());
+  inspectorClose?.addEventListener("click", () => inspector?.close());
+  inspector?.addEventListener("click", (event) => {
+    if (event.target === inspector) inspector.close();
+  });
+
   const navItems = [...document.querySelectorAll(".nav-item")];
   const sections = navItems.map((link) => document.querySelector(link.getAttribute("href"))).filter(Boolean);
   const sectionObserver = new IntersectionObserver((entries) => {

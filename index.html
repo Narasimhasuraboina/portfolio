@@ -52,7 +52,7 @@
   }}
 );
 setDonors(response.data);</code></pre>
-          <a href="https://github.com/Narasimhasuraboina/Blood-donation/blob/main/frontend/src/components/DonorList.js" target="_blank" rel="noopener noreferrer">VIEW SOURCE <span aria-hidden="true">↗</span></a>
+          <div class="hero-code-actions"><button class="inspect-trigger" type="button" aria-haspopup="dialog" aria-controls="project-inspector">INSPECT PROJECT <span aria-hidden="true">↗</span></button><a href="https://github.com/Narasimhasuraboina/Blood-donation/blob/main/frontend/src/components/DonorList.js" target="_blank" rel="noopener noreferrer">SOURCE FILE <span aria-hidden="true">↗</span></a></div>
           <div class="code-panel-index" aria-hidden="true">SOURCE / 01</div>
         </aside>
         <div class="hero-index" aria-hidden="true"><span>SCROLL TO EXPLORE</span><b>00 — 04</b></div>
@@ -125,6 +125,24 @@ setDonors(response.data);</code></pre>
       </section>
     </main>
 
+    <dialog class="project-inspector" id="project-inspector" aria-labelledby="inspector-title">
+      <button class="inspector-close" type="button" aria-label="Close project details">×</button>
+      <div class="inspector-head"><span>ACADEMIC PROJECT</span><span>REACT / NODE.JS / MYSQL</span></div>
+      <p class="inspector-index">PROJECT 01</p>
+      <h2 id="inspector-title">Blood Donation<br />Management System</h2>
+      <p class="inspector-description">A full-stack application for donor registration, blood requests, finding donors by blood group, and donation history.</p>
+      <div class="inspector-rule"></div>
+      <p class="inspector-label">FEATURES</p>
+      <ul class="inspector-features"><li>Donor registration</li><li>Blood requests</li><li>Find donors by blood group</li><li>Donation history</li></ul>
+      <div class="inspector-rule"></div>
+      <div class="inspector-code-head"><span>DonorList.js</span><span>REACT</span></div>
+      <pre class="inspector-code"><code><span class="code-keyword">const</span> response = await axios.get(
+  `${API}/profile/all-donors`,
+  { headers: { Authorization: `Bearer ${token}` } }
+);
+setDonors(response.data);</code></pre>
+      <div class="inspector-links"><a href="https://github.com/Narasimhasuraboina/Blood-donation" target="_blank" rel="noopener noreferrer">OPEN REPOSITORY <span aria-hidden="true">↗</span></a><a href="https://github.com/Narasimhasuraboina/Blood-donation/blob/main/frontend/src/components/DonorList.js" target="_blank" rel="noopener noreferrer">SOURCE FILE <span aria-hidden="true">↗</span></a></div>
+    </dialog>
     <footer class="site-footer"><a class="wordmark" href="#top">N<span>.</span></a><span>SOFTWARE DEVELOPER × VIDEO EDITOR</span><a href="#top" class="back-top">BACK TO TOP ↑</a><span class="footer-year">© 2026</span></footer>
   </body>
 </html>
