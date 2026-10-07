@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#111315" />
-    <meta name="description" content="Narasimha is a CSE student interested in software development, filmmaking, and visual storytelling." />
+    <meta name="theme-color" content="#080a0b" />
+    <meta name="description" content="Narasimha is a software developer and video editor." />
     <meta property="og:title" content="Narasimha — Software Developer & Video Editor" />
     <meta property="og:description" content="Personal portfolio of Narasimha." />
     <meta property="og:type" content="website" />
@@ -13,79 +13,106 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
   </head>
   <body>
+    <canvas class="code-field" id="code-field" aria-hidden="true"></canvas>
+    <div class="grain" aria-hidden="true"></div>
     <a class="skip-link" href="#main">Skip to content</a>
+
     <header class="site-header">
-      <a class="wordmark" href="#top" aria-label="Narasimha, back to top">Narasimha</a>
-      <nav aria-label="Main navigation">
-        <a href="#work">Work</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
+      <a class="wordmark" href="#top" aria-label="Narasimha, back to top">N<span>.</span></a>
+      <div class="header-state"><i aria-hidden="true"></i> SOFTWARE DEVELOPER <b>/</b> VIDEO EDITOR</div>
+      <a class="header-contact" href="#contact">Connect <span aria-hidden="true">↗</span></a>
     </header>
+
+    <nav class="side-nav" aria-label="Page sections">
+      <a href="#top" class="nav-item active"><span>01</span><b>Intro</b></a>
+      <a href="#work" class="nav-item"><span>02</span><b>Work</b></a>
+      <a href="#about" class="nav-item"><span>03</span><b>About</b></a>
+      <a href="#contact" class="nav-item"><span>04</span><b>Links</b></a>
+    </nav>
 
     <main id="main">
       <section class="hero" id="top" aria-labelledby="hero-title">
-        <p class="eyebrow">CSE student</p>
-        <h1 id="hero-title">Software Developer<br />&amp; Video Editor</h1>
-        <p class="hero-intro">I’m a CSE student. I write scripts for my short films, direct them, and edit the footage.</p>
+        <div class="hero-topline"><span>PORTFOLIO / 2026</span><span>INDIA <i class="crosshair" aria-hidden="true">⌖</i></span></div>
+        <div class="hero-content">
+          <p class="eyebrow"><span class="eyebrow-mark">✳</span> CSE STUDENT</p>
+          <h1 id="hero-title">Narasimha<br /><span>Suraboina</span></h1>
+          <p class="hero-role">Software Developer <b>×</b> Video Editor</p>
+          <p class="hero-intro">I build software, write short film scripts, direct, and edit.</p>
+          <a class="scroll-cue" href="#work"><span class="scroll-line" aria-hidden="true"></span> EXPLORE WORK <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-index" aria-hidden="true"><span>SCROLL TO EXPLORE</span><b>00 — 04</b></div>
+        <div class="hero-coordinate" aria-hidden="true">N 17° 23′ 0″ &nbsp; E 78° 29′ 0″</div>
       </section>
 
       <section class="work section-shell" id="work" aria-labelledby="work-title">
-        <h2 id="work-title">Work</h2>
+        <div class="section-heading"><span class="section-number">01 / WORK</span><h2 id="work-title">Selected work</h2><span class="section-meta">DEVELOPMENT + FILM</span></div>
         <article class="project" aria-labelledby="project-title">
+          <div class="project-visual">
+            <div class="visual-topline"><span>WEB APPLICATION</span><span>01 — 01</span></div>
+            <div class="app-preview">
+              <div class="app-rail" aria-hidden="true"><span class="app-mark">BD</span><i class="rail-active"></i><i></i><i></i></div>
+              <div class="app-screen">
+                <div class="app-bar"><span>DONOR MANAGEMENT</span><span class="app-avatar">N</span></div>
+                <div class="app-title-row"><div><span>DONORS</span><h4>Donor list</h4></div><span class="app-filter">FILTER BY BLOOD GROUP <b>⌄</b></span></div>
+                <div class="app-list" aria-label="Project features">
+                  <div><span class="app-icon">＋</span><span>Donor registration</span><b>↗</b></div>
+                  <div><span class="app-icon">!</span><span>Blood requests</span><b>↗</b></div>
+                  <div><span class="app-icon">⌕</span><span>Find donors by blood group</span><b>↗</b></div>
+                  <div><span class="app-icon">↻</span><span>Donation history</span><b>↗</b></div>
+                </div>
+              </div>
+            </div>
+            <div class="visual-footer"><span>REACT / NODE.JS / MYSQL</span><span>PROJECT 001</span></div>
+          </div>
           <div class="project-copy">
-            <p class="project-type">Academic project</p>
+            <p class="project-type">ACADEMIC PROJECT <span>· FULL STACK</span></p>
             <h3 id="project-title">Blood Donation<br />Management System</h3>
             <p class="project-description">A full-stack application for donor registration, blood requests, finding donors by blood group, and tracking donation history.</p>
-            <a class="project-link" href="https://github.com/Narasimhasuraboina/Blood-donation" target="_blank" rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>
-          </div>
-          <div class="project-showcase">
-            <div class="code-preview" aria-label="Source code preview from the donor list component">
-              <div class="code-toolbar"><span class="window-dot" aria-hidden="true"></span><span>DonorList.js</span><span class="code-language">React</span></div>
-              <pre><code><span class="code-keyword">const</span> response = await axios.get(
-    `${API}/profile/all-donors`,
-    {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
+            <div class="project-actions">
+              <button class="details-toggle" type="button" aria-expanded="false" aria-controls="project-details">View project details <span aria-hidden="true">＋</span></button>
+              <a class="project-link" href="https://github.com/Narasimhasuraboina/Blood-donation" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="project-details" id="project-details" hidden>
+              <div><span class="detail-label">STACK</span><p>React · Axios · Node.js · Express · JWT · MySQL</p></div>
+              <div class="code-preview" aria-label="Source code excerpt from DonorList.js">
+                <div class="code-toolbar"><span class="window-dot" aria-hidden="true"></span><span>DonorList.js</span><span class="code-language">REACT</span></div>
+                <pre><code><span class="code-keyword">const</span> response = await axios.get(
+  `${API}/profile/all-donors`,
+  { headers: { Authorization: `Bearer ${token}` } }
 );
 setDonors(response.data);</code></pre>
-              <a class="source-link" href="https://github.com/Narasimhasuraboina/Blood-donation/blob/main/frontend/src/components/DonorList.js" target="_blank" rel="noopener noreferrer">Open source file <span aria-hidden="true">↗</span></a>
-            </div>
-            <div class="project-details">
-              <p class="detail-label">Technologies</p>
-              <p>React · Axios · Node.js · Express · JWT · MySQL</p>
+                <a class="source-link" href="https://github.com/Narasimhasuraboina/Blood-donation/blob/main/frontend/src/components/DonorList.js" target="_blank" rel="noopener noreferrer">Open source file <span aria-hidden="true">↗</span></a>
+              </div>
             </div>
           </div>
         </article>
 
         <article class="film-work" aria-labelledby="film-title">
-          <h3 id="film-title">Short films</h3>
-          <p>I make short films from scripts I write. I direct and edit them myself.</p>
+          <div class="film-marker" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div><p class="project-type">FILM</p><h3 id="film-title">Short films</h3><p>I write the scripts, direct, and edit my own short films.</p></div>
+          <span class="film-note">VIDEO EDITING / DIRECTION</span>
         </article>
       </section>
 
-      <section class="about" id="about" aria-labelledby="about-title">
-        <div class="about-inner">
-          <h2 id="about-title">About</h2>
-          <p>I’m interested in software and web development, creative technology, filmmaking, and visual storytelling.</p>
-        </div>
+      <section class="about section-shell" id="about" aria-labelledby="about-title">
+        <div class="section-heading"><span class="section-number">02 / ABOUT</span><h2 id="about-title">A little about me</h2></div>
+        <div class="about-content"><p>I’m a computer science student interested in software development and filmmaking. I work across code and video, from building web applications to writing, directing, and editing short films.</p><div class="about-tags"><span>SOFTWARE</span><span>WEB DEVELOPMENT</span><span>VIDEO EDITING</span><span>FILMMAKING</span></div></div>
       </section>
 
       <section class="contact section-shell" id="contact" aria-labelledby="contact-title">
-        <h2 id="contact-title">Contact</h2>
+        <div class="section-heading"><span class="section-number">03 / LINKS</span><h2 id="contact-title">Find me online</h2></div>
         <ul class="profile-list">
-          <li><a href="https://www.linkedin.com/in/narasimha-suraboina-9b0a5834b" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><span class="profile-handle">Narasimhasuraboina</span><span class="profile-arrow" aria-hidden="true">↗</span></a></li>
-          <li><a href="https://leetcode.com/u/Narasimhasuraboina/" target="_blank" rel="noopener noreferrer"><span>LeetCode</span><span class="profile-handle">Narasimhasuraboina</span><span class="profile-arrow" aria-hidden="true">↗</span></a></li>
-          <li><a href="https://github.com/Narasimhasuraboina" target="_blank" rel="noopener noreferrer"><span>GitHub</span><span class="profile-handle">Narasimhasuraboina</span><span class="profile-arrow" aria-hidden="true">↗</span></a></li>
-          <li><a href="https://www.geeksforgeeks.org/user/Narasimhasuraboina/" target="_blank" rel="noopener noreferrer"><span>GeeksforGeeks</span><span class="profile-handle">Narasimhasuraboina</span><span class="profile-arrow" aria-hidden="true">↗</span></a></li>
+          <li><a href="https://www.linkedin.com/in/narasimha-suraboina-9b0a5834b" target="_blank" rel="noopener noreferrer"><span class="link-index">01</span><span>LinkedIn</span><span class="profile-handle">Narasimhasuraboina</span><span class="profile-arrow" aria-hidden="true">↗</span></a></li>
+          <li><a href="https://leetcode.com/u/Narasimhasuraboina/" target="_blank" rel="noopener noreferrer"><span class="link-index">02</span><span>LeetCode</span><span class="profile-handle">Narasimhasuraboina</span><span class="profile-arrow" aria-hidden="true">↗</span></a></li>
+          <li><a href="https://github.com/Narasimhasuraboina" target="_blank" rel="noopener noreferrer"><span class="link-index">03</span><span>GitHub</span><span class="profile-handle">Narasimhasuraboina</span><span class="profile-arrow" aria-hidden="true">↗</span></a></li>
+          <li><a href="https://www.geeksforgeeks.org/user/Narasimhasuraboina/" target="_blank" rel="noopener noreferrer"><span class="link-index">04</span><span>GeeksforGeeks</span><span class="profile-handle">Narasimhasuraboina</span><span class="profile-arrow" aria-hidden="true">↗</span></a></li>
         </ul>
       </section>
     </main>
 
-    <footer class="site-footer"><a class="wordmark" href="#top">Narasimha</a><span>Software Developer + Video Editor</span><a href="#top" class="back-top">Back to top</a></footer>
+    <footer class="site-footer"><a class="wordmark" href="#top">N<span>.</span></a><span>SOFTWARE DEVELOPER × VIDEO EDITOR</span><a href="#top" class="back-top">BACK TO TOP ↑</a><span class="footer-year">© 2026</span></footer>
   </body>
 </html>

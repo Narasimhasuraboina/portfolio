@@ -1,0 +1,166 @@
+(() => {
+  const canvas = document.querySelector("#code-field");
+  const context = canvas?.getContext("2d", { alpha: true });
+  if (!canvas || !context) return;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const code = "const response = await axios.get('/profile/all-donors'); Authorization: Bearer token; setDonors(response.data); async function requestBlood() { return response; }";
+  const pointer = { x: -1000, y: -1000, active: false };
+  const ripples = [];
+  const cell = 15;
+  let width = 0;
+  let height = 0;
+  let columns = 0;
+  let rows = 0;
+  let frame = 0;
+  let lastFrame = 0;
+  let visible = true;
+  let pageVisible = !document.hidden;
+  let scrollY = window.scrollY;
+
+  function resize() {
+    const ratio = Math.min(window.devicePixelRatio || 1, 1.25);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.round(width * ratio);
+    canvas.height = Math.round(height * ratio);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    columns = Math.ceil(width / cell) + 1;
+    rows = Math.ceil(height / cell) + 1;
+    draw(performance.now());
+  }
+
+  function draw(time) {
+    context.clearRect(0, 0, width, height);
+    context.font = '9px "DM Mono", monospace';
+    context.textBaseline = "top";
+    const drift = reduceMotion.matches ? 0 : Math.sin(time * 0.00018) * 2;
+    const start = Math.floor((scrollY * 0.08) % code.length);
+
+    for (let row = 0; row < rows; row++) {
+      const y = row * cell;
+      for (let column = 0; column < columns; column++) {
+        const x = column * cell;
+        const index = (start + column * 3 + row * 11) % code.length;
+        const char = code[index];
+        if (char === " ") continue;
+
+        const dx = x - pointer.x;
+        const dy = y - pointer.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const influence = pointer.active ? Math.max(0, 1 - distance / 180) : 0;
+        const wave = pointer.active && influence ? Math.sin(distance * 0.045 - time * 0.003) * 5 * influence : 0;
+        const depth = (Math.sin((column * 0.12) + (row * 0.19) + time * 0.00035) + 1) * 0.5;
+        const alpha = (0.075 + depth * 0.07 + influence * 0.28) * (char === "/" || char === "{" ? 0.58 : 1);
+
+        context.fillStyle = influence > 0.1
+          ? `rgba(178, 212, 192, ${alpha})`
+          : `rgba(133, 163, 149, ${alpha})`;
+        context.fillText(char, x + drift + wave, y + (pointer.active ? Math.cos(distance * 0.035) * influence * 2 : 0));
+      }
+    }
+
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      const ripple = ripples[i];
+      const elapsed = (time - ripple.started) / 950;
+      if (elapsed >= 1) {
+        ripples.splice(i, 1);
+        continue;
+      }
+      const radius = elapsed * 260;
+      context.beginPath();
+      context.arc(ripple.x, ripple.y, radius, 0, Math.PI * 2);
+      context.strokeStyle = `rgba(172, 207, 188, ${(1 - elapsed) * 0.16})`;
+      context.lineWidth = 1;
+      context.stroke();
+    }
+  }
+
+  function animate(time) {
+    frame = 0;
+    if (!visible || !pageVisible || reduceMotion.matches) return;
+    if (time - lastFrame >= 1000 / 30) {
+      draw(time);
+      lastFrame = time;
+    }
+    frame = requestAnimationFrame(animate);
+  }
+
+  function requestDraw() {
+    if (!visible || !pageVisible) return;
+    if (reduceMotion.matches) {
+      draw(performance.now());
+      return;
+    }
+    if (!frame) frame = requestAnimationFrame(animate);
+  }
+
+  function updatePointer(event) {
+    pointer.x = event.clientX;
+    pointer.y = event.clientY;
+    pointer.active = true;
+    requestDraw();
+  }
+
+  window.addEventListener("resize", resize, { passive: true });
+  window.addEventListener("scroll", () => {
+    scrollY = window.scrollY;
+    requestDraw();
+    document.documentElement.style.setProperty("--atmosphere-shift", `${Math.min(scrollY * -0.025, -34)}px`);
+  }, { passive: true });
+  window.addEventListener("pointermove", updatePointer, { passive: true });
+  window.addEventListener("pointerleave", () => {
+    pointer.active = false;
+    requestDraw();
+  });
+  window.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "touch") updatePointer(event);
+    ripples.push({ x: event.clientX, y: event.clientY, started: performance.now() });
+    requestDraw();
+  }, { passive: true });
+  document.addEventListener("visibilitychange", () => {
+    pageVisible = !document.hidden;
+    requestDraw();
+  });
+  reduceMotion.addEventListener?.("change", requestDraw);
+
+  const observer = new IntersectionObserver((entries) => {
+    visible = entries.some((entry) => entry.isIntersecting);
+    if (!visible && frame) cancelAnimationFrame(frame);
+    frame = 0;
+    if (visible) requestDraw();
+  });
+  observer.observe(canvas);
+
+  document.querySelectorAll(".details-toggle").forEach((button) => {
+    button.addEventListener("click", () => {
+      const details = document.getElementById(button.getAttribute("aria-controls"));
+      const expanded = button.getAttribute("aria-expanded") === "true";
+      button.setAttribute("aria-expanded", String(!expanded));
+      button.innerHTML = expanded
+        ? 'View project details <span aria-hidden="true">＋</span>'
+        : 'Hide project details <span aria-hidden="true">−</span>';
+      if (details) details.hidden = expanded;
+    });
+  });
+
+  const navItems = [...document.querySelectorAll(".nav-item")];
+  const sections = navItems.map((link) => document.querySelector(link.getAttribute("href"))).filter(Boolean);
+  const sectionObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      navItems.forEach((link) => {
+        const isActive = link.hash === `#${entry.target.id}`;
+        link.classList.toggle("active", isActive);
+        if (isActive) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+    }
+  }, { rootMargin: "-38% 0px -38% 0px", threshold: 0 });
+  sections.forEach((section) => sectionObserver.observe(section));
+
+  resize();
+  requestDraw();
+})();
