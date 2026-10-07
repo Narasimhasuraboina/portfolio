@@ -17,6 +17,12 @@
   let visible = true;
   let pageVisible = !document.hidden;
   let scrollY = window.scrollY;
+  const palettes = {
+    intro: [133, 163, 149, 178, 212, 192],
+    work: [144, 172, 147, 190, 221, 194],
+    about: [158, 164, 126, 204, 210, 166],
+    contact: [165, 145, 126, 213, 184, 158],
+  };
 
   function resize() {
     const ratio = Math.min(window.devicePixelRatio || 1, 1.25);
@@ -36,6 +42,7 @@
     context.clearRect(0, 0, width, height);
     context.font = '9px "DM Mono", monospace';
     context.textBaseline = "top";
+    const [baseR, baseG, baseB, hotR, hotG, hotB] = palettes[document.body.dataset.section] || palettes.intro;
     const drift = reduceMotion.matches ? 0 : Math.sin(time * 0.00018) * 2;
     const start = Math.floor((scrollY * 0.08) % code.length);
 
@@ -56,8 +63,8 @@
         const alpha = (0.075 + depth * 0.07 + influence * 0.28) * (char === "/" || char === "{" ? 0.58 : 1);
 
         context.fillStyle = influence > 0.1
-          ? `rgba(178, 212, 192, ${alpha})`
-          : `rgba(133, 163, 149, ${alpha})`;
+          ? `rgba(${hotR}, ${hotG}, ${hotB}, ${alpha})`
+          : `rgba(${baseR}, ${baseG}, ${baseB}, ${alpha})`;
         context.fillText(char, x + drift + wave, y + (pointer.active ? Math.cos(distance * 0.035) * influence * 2 : 0));
       }
     }
@@ -109,6 +116,8 @@
     scrollY = window.scrollY;
     requestDraw();
     document.documentElement.style.setProperty("--atmosphere-shift", `${Math.min(scrollY * -0.025, -34)}px`);
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    document.documentElement.style.setProperty("--scroll-progress", String(scrollable > 0 ? scrollY / scrollable : 0));
   }, { passive: true });
   window.addEventListener("pointermove", updatePointer, { passive: true });
   window.addEventListener("pointerleave", () => {
@@ -151,6 +160,9 @@
   const sectionObserver = new IntersectionObserver((entries) => {
     for (const entry of entries) {
       if (!entry.isIntersecting) continue;
+      const sectionId = entry.target.id === "top" ? "intro" : entry.target.id;
+      document.body.dataset.section = sectionId;
+      requestDraw();
       navItems.forEach((link) => {
         const isActive = link.hash === `#${entry.target.id}`;
         link.classList.toggle("active", isActive);
@@ -160,6 +172,35 @@
     }
   }, { rootMargin: "-38% 0px -38% 0px", threshold: 0 });
   sections.forEach((section) => sectionObserver.observe(section));
+
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      observer.unobserve(entry.target);
+    });
+  }, { rootMargin: "0px 0px -10% 0px", threshold: 0.08 });
+  document.querySelectorAll(".section-shell").forEach((section) => revealObserver.observe(section));
+  document.body.classList.add("js-ready");
+
+  const visual = document.querySelector(".project-visual");
+  if (visual && window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reduceMotion.matches) {
+    visual.addEventListener("pointermove", (event) => {
+      const bounds = visual.getBoundingClientRect();
+      const x = (event.clientX - bounds.left) / bounds.width;
+      const y = (event.clientY - bounds.top) / bounds.height;
+      visual.style.setProperty("--spot-x", `${x * 100}%`);
+      visual.style.setProperty("--spot-y", `${y * 100}%`);
+      visual.style.setProperty("--tilt-x", `${(0.5 - y) * 5}deg`);
+      visual.style.setProperty("--tilt-y", `${(x - 0.5) * 7}deg`);
+    });
+    visual.addEventListener("pointerleave", () => {
+      visual.style.setProperty("--spot-x", "50%");
+      visual.style.setProperty("--spot-y", "50%");
+      visual.style.setProperty("--tilt-x", "0deg");
+      visual.style.setProperty("--tilt-y", "0deg");
+    });
+  }
 
   resize();
   requestDraw();
