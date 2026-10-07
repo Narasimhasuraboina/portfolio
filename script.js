@@ -4,10 +4,15 @@
   if (!canvas || !context) return;
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const code = "const response = await axios.get('/profile/all-donors'); Authorization: Bearer token; setDonors(response.data); async function requestBlood() { return response; }";
+  const codeLines = [
+    "const response = await axios.get(",
+    "`${API}/profile/all-donors`,",
+    "{ headers: { Authorization: `Bearer ${token}` } }",
+    "setDonors(response.data);",
+  ];
   const pointer = { x: -1000, y: -1000, active: false };
   const ripples = [];
-  const cell = 15;
+  const cell = 14;
   let width = 0;
   let height = 0;
   let columns = 0;
@@ -34,7 +39,7 @@
     canvas.style.height = `${height}px`;
     context.setTransform(ratio, 0, 0, ratio, 0, 0);
     columns = Math.ceil(width / cell) + 1;
-    rows = Math.ceil(height / cell) + 1;
+    rows = Math.ceil(height / 34) + 1;
     draw(performance.now());
   }
 
@@ -44,28 +49,29 @@
     context.textBaseline = "top";
     const [baseR, baseG, baseB, hotR, hotG, hotB] = palettes[document.body.dataset.section] || palettes.intro;
     const drift = reduceMotion.matches ? 0 : Math.sin(time * 0.00018) * 2;
-    const start = Math.floor((scrollY * 0.08) % code.length);
-
     for (let row = 0; row < rows; row++) {
-      const y = row * cell;
-      for (let column = 0; column < columns; column++) {
-        const x = column * cell;
-        const index = (start + column * 3 + row * 11) % code.length;
-        const char = code[index];
-        if (char === " ") continue;
-
-        const dx = x - pointer.x;
-        const dy = y - pointer.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const influence = pointer.active ? Math.max(0, 1 - distance / 180) : 0;
-        const wave = pointer.active && influence ? Math.sin(distance * 0.045 - time * 0.003) * 5 * influence : 0;
-        const depth = (Math.sin((column * 0.12) + (row * 0.19) + time * 0.00035) + 1) * 0.5;
-        const alpha = (0.15 + depth * 0.12 + influence * 0.3) * (char === "/" || char === "{" ? 0.58 : 1);
-
-        context.fillStyle = influence > 0.1
-          ? `rgba(${hotR}, ${hotG}, ${hotB}, ${alpha})`
-          : `rgba(${baseR}, ${baseG}, ${baseB}, ${alpha})`;
-        context.fillText(char, x + drift + wave, y + (pointer.active ? Math.cos(distance * 0.035) * influence * 2 : 0));
+      const y = row * 34 + ((row % 3) - 1) * 3;
+      const line = codeLines[(row + Math.floor(scrollY / 180)) % codeLines.length];
+      const lineWidth = line.length * 8 + 150;
+      const offset = (row * 79 + Math.floor(scrollY * 0.16)) % lineWidth;
+      for (let x = -offset; x < width; x += lineWidth) {
+        for (let index = 0; index < line.length; index++) {
+          const char = line[index];
+          if (char === " ") continue;
+          const px = x + index * 8 + drift;
+          const dx = px - pointer.x;
+          const dy = y - pointer.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const influence = pointer.active ? Math.max(0, 1 - distance / 190) : 0;
+          const wave = influence ? Math.sin(distance * 0.045 - time * 0.003) * 5 * influence : 0;
+          const edge = Math.min(1, Math.abs(px - width * 0.52) / (width * 0.54));
+          const depth = (Math.sin(row * 0.67 + x * 0.006 + time * 0.00022) + 1) * 0.5;
+          const alpha = (0.025 + edge * 0.045 + depth * 0.025 + influence * 0.18);
+          context.fillStyle = influence > 0.08
+            ? `rgba(${hotR}, ${hotG}, ${hotB}, ${alpha})`
+            : `rgba(${baseR}, ${baseG}, ${baseB}, ${alpha})`;
+          context.fillText(char, px + wave, y + (influence ? Math.cos(distance * 0.035) * influence * 2 : 0));
+        }
       }
     }
 
