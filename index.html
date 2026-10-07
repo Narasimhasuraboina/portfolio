@@ -43,6 +43,18 @@
           <p class="hero-intro">I build software, write short film scripts, direct, and edit.</p>
           <a class="scroll-cue" href="#work"><span class="scroll-line" aria-hidden="true"></span> EXPLORE WORK <span aria-hidden="true">↓</span></a>
         </div>
+        <aside class="hero-code" aria-label="Code excerpt from the donor list component">
+          <div class="hero-code-head"><span><i aria-hidden="true"></i> DonorList.js</span><span>REACT / 001</span></div>
+          <pre><code><span class="code-keyword">const</span> response = await axios.get(
+  `${API}/profile/all-donors`,
+  { headers: {
+    Authorization: `Bearer ${token}`
+  }}
+);
+setDonors(response.data);</code></pre>
+          <a href="https://github.com/Narasimhasuraboina/Blood-donation/blob/main/frontend/src/components/DonorList.js" target="_blank" rel="noopener noreferrer">VIEW SOURCE <span aria-hidden="true">↗</span></a>
+          <div class="code-panel-index" aria-hidden="true">SOURCE / 01</div>
+        </aside>
         <div class="hero-index" aria-hidden="true"><span>SCROLL TO EXPLORE</span><b>00 — 04</b></div>
         <div class="hero-coordinate" aria-hidden="true">N 17° 23′ 0″ &nbsp; E 78° 29′ 0″</div>
       </section>

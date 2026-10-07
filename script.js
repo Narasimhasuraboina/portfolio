@@ -60,7 +60,7 @@
         const influence = pointer.active ? Math.max(0, 1 - distance / 180) : 0;
         const wave = pointer.active && influence ? Math.sin(distance * 0.045 - time * 0.003) * 5 * influence : 0;
         const depth = (Math.sin((column * 0.12) + (row * 0.19) + time * 0.00035) + 1) * 0.5;
-        const alpha = (0.075 + depth * 0.07 + influence * 0.28) * (char === "/" || char === "{" ? 0.58 : 1);
+        const alpha = (0.15 + depth * 0.12 + influence * 0.3) * (char === "/" || char === "{" ? 0.58 : 1);
 
         context.fillStyle = influence > 0.1
           ? `rgba(${hotR}, ${hotG}, ${hotB}, ${alpha})`
